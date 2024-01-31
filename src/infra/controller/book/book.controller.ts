@@ -1,7 +1,13 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+<<<<<<< HEAD
 import { BookService } from '../../../domain/book/service/book.service';
 import { CreateBookDto } from '../../../domain/book/dto/create-book.dto';
 import { UpdateBookDto } from '../../../domain/book/dto/update-book.dto';
+=======
+import { BookService } from '../../../book/service/book.service';
+import { CreateBookDto } from '../../../book/dto/create-book.dto';
+import { UpdateBookDto } from '../../../book/dto/update-book.dto';
+>>>>>>> feat: start of nestjs configuration with author and book test
 
 @Controller('book')
 export class BookController {
