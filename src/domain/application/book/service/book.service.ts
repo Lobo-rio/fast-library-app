@@ -1,26 +1,43 @@
-import { Injectable } from '@nestjs/common';
-import { CreateBookDto } from '../dto/create-book.dto';
-import { UpdateBookDto } from '../dto/update-book.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Book, Prisma } from '@prisma/client';
+
+import { BookInterfaceRepository } from '../../../../domain/enterprise/repository/book-interface.repository';
 
 @Injectable()
 export class BookService {
-  create(createBookDto: CreateBookDto) {
-    return 'This action adds a new book';
+  constructor(private readonly repository: BookInterfaceRepository) {}
+
+  async findMany(skip: number, take: number): Promise<Book[]> {
+    return await this.repository.findMany(skip, take);
   }
 
-  findAll() {
-    return `This action returns all book`;
+  async findById(id: Prisma.BookWhereUniqueInput): Promise<Book> {
+    const bookExisted = await this.repository.findById(id);
+
+    if (!bookExisted) throw new NotFoundException('Book is not registered!');
+
+    return bookExisted;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} book`;
+  async create(data: Prisma.BookCreateInput): Promise<Book> {
+    return await this.repository.create(data);
   }
 
-  update(id: number, updateBookDto: UpdateBookDto) {
-    return `This action updates a #${id} book`;
+  async update(
+    where: Prisma.BookWhereUniqueInput,
+    data: Prisma.BookUpdateInput,
+  ): Promise<Book> {
+    const bookExisted = await this.findById(where);
+
+    if (!bookExisted)
+      throw new NotFoundException(
+        'There is no book registered with this identifier',
+      );
+
+    return await this.repository.update(where, data);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} book`;
+  async delete(where: Prisma.BookWhereUniqueInput): Promise<void> {
+    await this.repository.delete(where);
   }
 }

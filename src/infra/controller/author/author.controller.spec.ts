@@ -1,10 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
+
 import { AuthorController } from './author.controller';
-<<<<<<< HEAD
-import { AuthorService } from '../../../domain/author/service/author.service';
-=======
-import { AuthorService } from '../../../author/service/author.service';
->>>>>>> feat: start of nestjs configuration with author and book test
+import { AuthorService } from '../../../domain/application/author/service/author.service';
 
 describe('AuthorController', () => {
   let controller: AuthorController;

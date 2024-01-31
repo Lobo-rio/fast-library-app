@@ -1,26 +1,60 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthorDto } from '../dto/create-author.dto';
-import { UpdateAuthorDto } from '../dto/update-author.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Author, Prisma } from '@prisma/client';
+
+import { AuthorInterfaceRepository } from '../../../../domain/enterprise/repository/author-interface.repository';
 
 @Injectable()
 export class AuthorService {
-  create(createAuthorDto: CreateAuthorDto) {
-    return 'This action adds a new author';
+  constructor(private readonly repository: AuthorInterfaceRepository) {}
+
+  async findMany(skip: number, take: number): Promise<Author[]> {
+    return await this.repository.findMany(skip, take);
   }
 
-  findAll() {
-    return `This action returns all author`;
+  async findById(id: Prisma.AuthorWhereUniqueInput): Promise<Author> {
+    const authorExisted = await this.repository.findById(id);
+
+    if (!authorExisted)
+      throw new NotFoundException('Author is not registered!');
+
+    return authorExisted;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} author`;
+  async findByEmail(email: Prisma.AuthorWhereUniqueInput): Promise<Author> {
+    const authorExisted = await this.repository.findByEmail(email);
+
+    if (!authorExisted)
+      throw new NotFoundException('Author with this email is not registered!');
+
+    return authorExisted;
   }
 
-  update(id: number, updateAuthorDto: UpdateAuthorDto) {
-    return `This action updates a #${id} author`;
+  async create(data: Prisma.AuthorCreateInput): Promise<Author> {
+    const authorExisted = await this.findByEmail({ email: data.email });
+
+    if (authorExisted)
+      throw new NotFoundException(
+        'This email appears in the registration of another Author',
+      );
+
+    return await this.repository.create(data);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} author`;
+  async update(
+    where: Prisma.AuthorWhereUniqueInput,
+    data: Prisma.AuthorUpdateInput,
+  ): Promise<Author> {
+    const authorExisted = await this.findById(where);
+
+    if (!authorExisted)
+      throw new NotFoundException(
+        'There is no author registered with this identifier',
+      );
+
+    return await this.repository.update(where, data);
+  }
+
+  async delete(where: Prisma.AuthorWhereUniqueInput): Promise<void> {
+    await this.repository.delete(where);
   }
 }
