@@ -1,13 +1,13 @@
-import { Author } from '@prisma/client';
-
-import { CreateAuthorDto } from '../../../domain/application/author/dto/create-author.dto';
-import { UpdateAuthorDto } from '../../../domain/application/author/dto/update-author.dto';
+import { Author, Prisma } from '@prisma/client';
 
 export interface AuthorInterfaceRepository {
-  findMany(): Promise<Author[]>;
-  findById(id: string): Promise<Author>;
-  findByEmail(email: string): Promise<Author>;
-  create(data: CreateAuthorDto): Promise<Author>;
-  update(id: string, data: UpdateAuthorDto): Promise<Author>;
-  softDelete(id: string): Promise<void>;
+  findMany(skip: number, take: number): Promise<Author[]>;
+  findById(id: Prisma.AuthorWhereUniqueInput): Promise<Author>;
+  findByEmail(email: Prisma.AuthorWhereUniqueInput): Promise<Author>;
+  create(data: Prisma.AuthorCreateInput): Promise<Author>;
+  update(
+    where: Prisma.AuthorWhereUniqueInput,
+    data: Prisma.AuthorUpdateInput,
+  ): Promise<Author>;
+  delete(where: Prisma.AuthorWhereUniqueInput): Promise<void>;
 }

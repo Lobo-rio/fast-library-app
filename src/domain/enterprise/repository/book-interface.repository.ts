@@ -1,13 +1,12 @@
-import { Book } from '@prisma/client';
-
-import { CreateBookDto } from '../../application/book/dto/create-book.dto';
-import { UpdateBookDto } from '../../application/book/dto/update-book.dto';
+import { Book, Prisma } from '@prisma/client';
 
 export interface BookInterfaceRepository {
-  findMany(): Promise<Book[]>;
-  findById(id: string): Promise<Book>;
-  findByEmail(email: string): Promise<Book>;
-  create(data: CreateBookDto): Promise<Book>;
-  update(id: string, data: UpdateBookDto): Promise<Book>;
-  softDelete(id: string): Promise<void>;
+  findMany(skip: number, take: number): Promise<Book[]>;
+  findById(id: Prisma.BookWhereUniqueInput): Promise<Book>;
+  create(data: Prisma.BookCreateInput): Promise<Book>;
+  update(
+    where: Prisma.BookWhereUniqueInput,
+    data: Prisma.BookUpdateInput,
+  ): Promise<Book>;
+  delete(where: Prisma.BookWhereUniqueInput): Promise<void>;
 }
