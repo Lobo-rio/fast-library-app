@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Author } from '@prisma/client';
 
 import { AuthorService } from '../../../domain/application/author/service/author.service';
 import { CreateAuthorDto } from '../../../domain/application/author/dto/create-author.dto';
@@ -17,7 +18,6 @@ import { UpdateAuthorDto } from '../../../domain/application/author/dto/update-a
 import { IndexTodoSwagger } from '../../../helpers/swagger/author/index-todo-swagger';
 import { BadRequestSwagger } from '../../../helpers/errors/badrequest.swagger';
 import { NotFoundSwagger } from '../../../helpers/errors/not-found.swagger';
-import { Author } from '@prisma/client';
 
 @Controller('app/v1/author')
 @ApiTags('Authors')

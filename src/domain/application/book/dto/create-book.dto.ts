@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty, MaxLength, MinLength } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsUUID,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class CreateBookDto {
   @ApiProperty()
@@ -12,10 +18,15 @@ export class CreateBookDto {
   @IsNotEmpty()
   @MinLength(5)
   @MaxLength(160)
-  content: string;
+  content?: string;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsBoolean()
-  published: boolean;
+  published?: boolean;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsUUID()
+  authorId: string;
 }

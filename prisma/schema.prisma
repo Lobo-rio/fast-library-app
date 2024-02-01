@@ -8,21 +8,25 @@ datasource db {
 }
 
 model Author {
-  id    String  @id @default(uuid())
-  email String  @unique
-  name  String?
-  posts Book[]
+  id        String    @id @default(uuid())
+  email     String    @unique
+  name      String?
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  posts     Book[]
 
   @@map("authors")
 }
 
 model Book {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
+  authorId  String    @map("author_id")
   title     String
   content   String?
-  published Boolean? @default(false)
-  author    Author?  @relation(fields: [authorId], references: [id])
-  authorId  String?
+  published Boolean?  @default(false)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  author    Author?   @relation(fields: [authorId], references: [id])
 
   @@map("books")
 }

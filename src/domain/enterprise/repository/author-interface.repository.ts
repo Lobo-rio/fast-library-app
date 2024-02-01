@@ -1,13 +1,13 @@
 import { Author, Prisma } from '@prisma/client';
 
-export interface AuthorInterfaceRepository {
-  findMany(skip: number, take: number): Promise<Author[]>;
-  findById(id: Prisma.AuthorWhereUniqueInput): Promise<Author>;
-  findByEmail(email: Prisma.AuthorWhereUniqueInput): Promise<Author>;
-  create(data: Prisma.AuthorCreateInput): Promise<Author>;
-  update(
+export abstract class AuthorInterfaceRepository {
+  abstract findMany(skip: number, take: number): Promise<Author[]>;
+  abstract findById(id: Prisma.AuthorWhereUniqueInput): Promise<Author>;
+  abstract findByEmail(email: Prisma.AuthorWhereUniqueInput): Promise<Author>;
+  abstract create(data: Prisma.AuthorCreateInput): Promise<Author>;
+  abstract update(
     where: Prisma.AuthorWhereUniqueInput,
     data: Prisma.AuthorUpdateInput,
   ): Promise<Author>;
-  delete(where: Prisma.AuthorWhereUniqueInput): Promise<void>;
+  abstract delete(where: Prisma.AuthorWhereUniqueInput): Promise<void>;
 }
