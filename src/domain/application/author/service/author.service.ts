@@ -30,7 +30,9 @@ export class AuthorService {
   }
 
   async create(data: Prisma.AuthorCreateInput): Promise<Author> {
-    const authorExisted = await this.findByEmail({ email: data.email });
+    const authorExisted = await this.repository.findByEmail({
+      email: data.email,
+    });
 
     if (authorExisted)
       throw new NotFoundException(

@@ -82,7 +82,7 @@ export class AuthorController {
     @Param('skip') skip: number,
     @Param('take') take: number,
   ): Promise<Author[]> {
-    return this.authorService.findMany(skip, take);
+    return this.authorService.findMany(+skip, +take);
   }
 
   @Post()

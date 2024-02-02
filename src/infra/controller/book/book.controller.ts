@@ -59,7 +59,7 @@ export class BookController {
     @Param('skip') skip: number,
     @Param('take') take: number,
   ): Promise<Book[]> {
-    return this.bookService.findMany(skip, take);
+    return this.bookService.findMany(+skip, +take);
   }
 
   @Post()
