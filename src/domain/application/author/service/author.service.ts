@@ -2,10 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Author, Prisma } from '@prisma/client';
 
 import { AuthorInterfaceRepository } from '../../../../domain/enterprise/repository/author-interface.repository';
+import { NodeMailerService } from '../../../../core/nodemailer/nodemailer.service';
 
 @Injectable()
 export class AuthorService {
-  constructor(private readonly repository: AuthorInterfaceRepository) {}
+  constructor(
+    private readonly repository: AuthorInterfaceRepository,
+    private readonly sendEmail: NodeMailerService,
+  ) {}
 
   async findMany(skip: number, take: number): Promise<Author[]> {
     return await this.repository.findMany(skip, take);
@@ -38,6 +42,11 @@ export class AuthorService {
       throw new NotFoundException(
         'This email appears in the registration of another Author',
       );
+
+    await this.sendEmail.execute({
+      name: data.name,
+      email: data.email,
+    });
 
     return await this.repository.create(data);
   }

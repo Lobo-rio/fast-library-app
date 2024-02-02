@@ -5,6 +5,7 @@ import { AuthorModule } from './domain/enterprise/author/author.module';
 import { BookModule } from './domain/enterprise/book/book.module';
 import { DatabaseModule } from './infra/database/database.module';
 import { EnvModule } from './helpers/env/env.module';
+import { NodeMailerModule } from './core/nodemailer/nodemailer.module';
 
 import { envSchema } from './helpers/env/env';
 
@@ -18,6 +19,7 @@ import { envSchema } from './helpers/env/env';
     DatabaseModule,
     AuthorModule,
     BookModule,
+    NodeMailerModule,
   ],
   controllers: [],
   providers: [],
