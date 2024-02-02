@@ -1,16 +1,6 @@
 version: '3.8'
 
 services:
-  api:
-    image: mcr.microsoft.com/devcontainers/typescript-node:1-18-bookworm
-    container_name: nestjs_application_redis_bull
-    ports:
-      - '3002:3002'
-    volumes:
-      - .:/api
-    depends_on:
-      - 'redis'
-
   postgres:
     container_name: nest-application-pg
     image: postgres
